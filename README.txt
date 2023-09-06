@@ -1,4 +1,5 @@
 Mostly the same as oobabooga google_translate extension, but with baidu translate engine
+
 ## How to run this plugin
 
 1. Download and unzip to `./extensions`
