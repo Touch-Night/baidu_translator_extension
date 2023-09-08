@@ -1,4 +1,4 @@
-import re
+import html
 import gradio as gr
 import baidu_translate as fanyi
 
@@ -50,24 +50,6 @@ language_codes = {'自动检测': 'auto', '中文(简体)': 'zh', '英语': 'en'
                   '扎扎其语': 'zaz', '祖鲁语': 'zul', '巽他语': 'sun', '苗语': 'hmn', '塞尔维亚语(西里尔文)': 'src'}
 
 
-def convert_unicode_hex_to_char(s):
-    # 使用正则表达式找到所有形如'&#x..'的Unicode Hex Character Code
-    unicode_hex_codes = re.findall(r'&#[xX][0-9a-fA-F]+;', s)
-
-    # 遍历所有的Unicode Hex Character Code
-    for code in unicode_hex_codes:
-        # 去掉开始的'&#x'和结尾的';'，然后将剩下的部分从16进制转换为10进制
-        char_code = int(code[3:-1], 16)
-
-        # 将10进制的数值转换为对应的字符
-        char = chr(char_code)
-
-        # 在原字符串中用字符替换掉Unicode Hex Character Code
-        s = s.replace(code, char)
-
-    return s
-
-
 def input_modifier(string):
     """
     This function is applied to your text inputs before
@@ -85,7 +67,7 @@ def output_modifier(string):
     """
     if not params['activate']:
         return string
-    return fanyi.translate_text(convert_unicode_hex_to_char(string), from_='en', to=params['language string'])
+    return fanyi.translate_text(html.unescape(string), from_='en', to=params['language string'])
 
 
 def bot_prefix_modifier(string):
