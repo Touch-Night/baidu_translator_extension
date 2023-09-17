@@ -67,7 +67,8 @@ def output_modifier(string):
     """
     if not params['activate']:
         return string
-    return fanyi.translate_text(html.unescape(string), from_='en', to=params['language string'])
+    translated_str = fanyi.translate_text(html.unescape(string), from_='en', to=params['language string'])
+    return html.escape(translated_str)
 
 
 def bot_prefix_modifier(string):
